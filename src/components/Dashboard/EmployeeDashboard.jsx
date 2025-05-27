@@ -1,112 +1,78 @@
-import Header from "../other/Header";
+import { useLocation } from "react-router-dom";
+
+// Better color palette for clarity and aesthetics
+const statusColors = {
+  newTask: "bg-sky-500",
+  completed: "bg-emerald-500",
+  active: "bg-amber-400",
+  failed: "bg-rose-500",
+};
 
 const EmployeeDashboard = () => {
+  const { state } = useLocation();
+  const employeeData = state?.employeeData;
+
+  const getTaskBgColor = (task) => {
+    if (task.completed) return "bg-emerald-500";
+    if (task.active) return "bg-amber-400";
+    if (task.newTask) return "bg-sky-500";
+    return "bg-rose-500";
+  };
+
   return (
-    <>
-      <Header />
-      <section className="max-w-7xl mx-auto">
-        <div className="min-h-screen w-full p-4 md:p-7">
-          {/* Task Summary Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mt-10">
-            <div className="rounded-xl py-6 px-6 bg-blue-400">
-              <h2 className="text-3xl font-bold">10</h2>
-              <h3 className="text-xl mt-0.5 font-medium">New Task</h3>
-            </div>
-            <div className="rounded-xl py-6 px-6 bg-green-400">
-              <h2 className="text-3xl font-bold">8</h2>
-              <h3 className="text-xl mt-0.5 font-medium">Completed Task</h3>
-            </div>
-            <div className="rounded-xl py-6 px-6 bg-yellow-400">
-              <h2 className="text-3xl text-black font-bold">5</h2>
-              <h3 className="text-xl mt-0.5 text-black font-medium">
-                Accepted Task
+    <section className="max-w-7xl mx-auto px-4 md:px-7 py-4">
+      {/* Summary */}
+      <h1 className="text-4xl font-bold">Task Summary</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mt-10">
+        {employeeData?.taskCounts &&
+          Object.entries(employeeData.taskCounts).map(([status, count]) => (
+            <div
+              key={status}
+              className={`rounded-xl py-6 px-6 text-white shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out ${
+                statusColors[status] || "bg-gray-400"
+              }`}
+            >
+              <h2 className="text-3xl font-bold">{count}</h2>
+              <h3 className="text-xl mt-1 font-medium">
+                {status.toUpperCase()} TASK
               </h3>
             </div>
-            <div className="rounded-xl py-6 px-6 bg-red-400">
-              <h2 className="text-3xl font-bold">1</h2>
-              <h3 className="text-xl mt-0.5 font-medium">Failed Task</h3>
-            </div>
-          </div>
+          ))}
+      </div>
 
-          {/* Task List */}
-          <div
-            id="tasklist"
-            className="h-auto overflow-x-auto flex items-start justify-between gap-5 flex-nowrap w-full py-4 mt-16"
-          >
-            {/* Task Card 1 */}
-            <div className="flex-shrink-0 w-[250px] p-5 bg-red-400 rounded-xl">
-              <div className="flex justify-between items-center">
-                <h3 className="bg-red-600 text-sm px-3 py-1 rounded">
-                  Tickle right
-                </h3>
-                <h4 className="text-sm">10/10/2025</h4>
-              </div>
-              <h2 className="mt-5 text-2xl font-semibold">Project Start</h2>
-              <p className="text-sm mt-2">Project all installation</p>
-              <div className="flex justify-between mt-6">
-                <button className="bg-green-500 rounded font-medium py-1 px-2 text-xs">
-                  Mark as Completed
-                </button>
-              </div>
-            </div>
-
-            {/* Task Card 2 */}
-            <div className="flex-shrink-0 w-[300px] p-5 bg-green-400 rounded-xl">
-              <div className="flex justify-between items-center">
-                <h3 className="bg-red-600 text-sm px-3 py-1 rounded">
-                  Architecure
-                </h3>
-                <h4 className="text-sm">8/10/2025</h4>
-              </div>
-              <h2 className="mt-5 text-2xl font-semibold">Project all info</h2>
-              <p className="text-sm mt-2">Flow charts</p>
-              <div className="mt-6">
-                <button className="bg-blue-500 rounded font-medium py-1 px-2 text-xs">
-                  Accept Task
-                </button>
-              </div>
-            </div>
-
-            {/* Task Card 3 */}
-            <div className="flex-shrink-0 w-[300px] p-5 bg-blue-400 rounded-xl">
-              <div className="flex justify-between items-center">
-                <h3 className="bg-red-600 text-sm px-3 py-1 rounded">
-                  All Task
-                </h3>
-                <h4 className="text-sm">10/9/2025</h4>
-              </div>
-              <h2 className="mt-5 text-2xl font-semibold">Disusscion</h2>
-              <p className="text-sm mt-2">Root cause for project</p>
-              <div className="mt-6">
-                <button className="w-full bg-green-600 rounded font-medium py-1 px-2 text-xs">
-                  Complete
-                </button>
-              </div>
-            </div>
-
-            {/* Task Card 4 */}
-            <div className="flex-shrink-0 w-[300px] p-5 bg-yellow-400 rounded-xl">
-              <div className="flex justify-between items-center">
-                <h3 className="bg-red-600 text-sm px-3 py-1 rounded">
-                  Backend
-                </h3>
-                <h4 className="text-sm">20/9/202</h4>
-              </div>
-              <h2 className="mt-5 text-2xl font-semibold">
-                Backend Architecure
-              </h2>
-              <p className="text-sm mt-2">Backend all information</p>
-              <div className="mt-6">
-                <button className="w-full bg-red-500 rounded font-medium py-1 px-2 text-xs">
-                  Failed
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
+      {/* Task Info */}
+      <h1 className="text-4xl font-bold mt-16">Task Info</h1>
+      <div className="flex flex-wrap gap-5 justify-start w-full py-4">
+        {Array.isArray(employeeData?.tasks) &&
+          employeeData.tasks.map((task, index) => (
+            <TaskCard
+              key={task.id || index}
+              task={task}
+              getTaskBgColor={getTaskBgColor}
+            />
+          ))}
+      </div>
+    </section>
   );
 };
 
 export default EmployeeDashboard;
+
+const TaskCard = ({ task, getTaskBgColor }) => {
+  return (
+    <div
+      className={`w-full sm:w-[45%] md:w-[30%] lg:w-[23%] p-5 rounded-xl text-white shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out ${getTaskBgColor(
+        task
+      )}`}
+    >
+      <div className="flex justify-between items-center">
+        <span className="bg-white/20 text-xs px-3 py-1 rounded font-medium">
+          {task.category}
+        </span>
+        <span className="text-sm opacity-90">{task.taskDate}</span>
+      </div>
+      <h2 className="mt-5 text-xl font-semibold">{task.taskTitle}</h2>
+      <p className="text-sm mt-2 opacity-95">{task.taskDescription}</p>
+    </div>
+  );
+};

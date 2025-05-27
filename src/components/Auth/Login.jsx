@@ -37,11 +37,15 @@ const Login = () => {
     if (adminData) {
       localStorage.setItem("role", "admin");
       localStorage.setItem("userData", JSON.stringify(adminData));
-      navigate("/admin");
+      navigate("/admin", {
+        state: { adminData },
+      });
     } else if (employeeData) {
       localStorage.setItem("role", "employee");
       localStorage.setItem("userData", JSON.stringify(employeeData));
-      navigate("/employee");
+      navigate("/employee", {
+        state: { employeeData },
+      });
     } else {
       toast.error("Invalid Credentials");
     }

@@ -1,9 +1,10 @@
-import Header from "../other/Header";
+import { useLocation } from "react-router-dom";
 
 const AdminDashboard = () => {
+  const { state } = useLocation();
+  console.log(state)
   return (
     <>
-      <Header />
       <section className="max-w-7xl mx-auto">
         <div className="h-screen w-full p-7">
           <div className="p-5 bg-[#1c1c1c] mt-5 rounded">
