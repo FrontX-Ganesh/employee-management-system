@@ -1,6 +1,9 @@
+import Header from "../other/Header";
+
 const EmployeeDashboard = () => {
   return (
     <>
+      <Header />
       <section className="max-w-7xl mx-auto">
         <div className="min-h-screen w-full p-4 md:p-7">
           {/* Task Summary Cards */}

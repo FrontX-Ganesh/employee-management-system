@@ -1,10 +1,10 @@
 import AuthProvider from "./context/AuthProvider";
-import AppContent from "./components/other/AppContent";
+import Routes from "../Routes";
 
 const App = () => {
   return (
     <AuthProvider>
-      <AppContent />
+      <Routes />
     </AuthProvider>
   );
 };

@@ -1,13 +1,50 @@
-/* eslint-disable no-unused-vars */
-import { useRef } from "react";
-import { ToastContainer } from "react-toastify";
+import { useContext, useRef } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import { AuthContext } from "../../context/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
-const Login = ({ handleLogin, user, loggedInUserData }) => {
+const Login = () => {
   const formData = useRef({});
+  const userData = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     formData.current[name] = value;
+  };
+
+  const handleLogin = (email, password) => {
+    if (!userData) {
+      console.warn("userData is not loaded yet");
+      toast.error("User data is not loaded yet.");
+      return;
+    }
+
+    const employees = userData.employees || [];
+    const admin = userData.admin || [];
+
+    const employeeData = employees.find(
+      (detail) => detail?.email === email && detail?.password === password
+    );
+
+    const adminData = admin.find(
+      (detail) => detail?.email === email && detail?.password === password
+    );
+
+    console.log("employeeData:", employeeData);
+    console.log("adminData:", adminData);
+
+    if (adminData) {
+      localStorage.setItem("role", "admin");
+      localStorage.setItem("userData", JSON.stringify(adminData));
+      navigate("/admin");
+    } else if (employeeData) {
+      localStorage.setItem("role", "employee");
+      localStorage.setItem("userData", JSON.stringify(employeeData));
+      navigate("/employee");
+    } else {
+      toast.error("Invalid Credentials");
+    }
   };
 
   const handleSubmit = (e) => {
