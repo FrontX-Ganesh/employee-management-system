@@ -1,12 +1,13 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
 import Login from "../Auth/Login";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
+import AdminDashboard from "../Dashboard/AdminDashboard";
+import EmployeeDashboard from "../Dashboard/EmployeeDashboard";
 
 const AppContent = () => {
-  const [user, setUser] = useState(null); // user role i.e employee or admin
-  const [loggedInUserData, setLoggedInUserData] = useState(null); // user role and data
   const userData = useContext(AuthContext);
+  const [userRole, setUserRole] = useState(null);
 
   const handleLogin = (email, password) => {
     if (!userData) {
@@ -19,33 +20,44 @@ const AppContent = () => {
     const admin = userData.admin || [];
 
     const employeeData = employees.find(
-      (user) => user?.email === email && user?.password === password
+      (detail) => detail?.email === email && detail?.password === password
     );
 
     const adminData = admin.find(
-      (user) => user?.email === email && user?.password === password
+      (detail) => detail?.email === email && detail?.password === password
     );
 
     console.log("employeeData:", employeeData);
     console.log("adminData:", adminData);
 
     if (adminData) {
-      setLoggedInUserData(adminData);
-      setUser("admin");
+      setUserRole("admin")
+      localStorage.setItem("role", "admin");
+      localStorage.setItem("userData", JSON.stringify(adminData));
     } else if (employeeData) {
-      setLoggedInUserData(employeeData);
-      setUser("employee");
+      setUserRole("employee")
+      localStorage.setItem("role", "employee");
+      localStorage.setItem("userData", JSON.stringify(employeeData));
     } else {
       toast.error("Invalid Credentials");
     }
   };
 
+  useEffect(() => {
+    const role = localStorage.getItem("role");
+    setUserRole(role)
+  }, [])
+
   return (
-    <Login
-      handleLogin={handleLogin}
-      user={user}
-      loggedInUserData={loggedInUserData}
-    />
+    <>
+      {!userRole ? (
+        <Login handleLogin={handleLogin} />
+      ) : userRole === "admin" ? (
+        <AdminDashboard />
+      ) : (
+        <EmployeeDashboard />
+      )}
+    </>
   );
 };
 
