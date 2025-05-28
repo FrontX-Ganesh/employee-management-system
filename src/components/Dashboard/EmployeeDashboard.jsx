@@ -21,7 +21,6 @@ const EmployeeDashboard = () => {
 
   return (
     <section className="max-w-7xl mx-auto px-4 md:px-7 py-4">
-      {/* Summary */}
       <h1 className="text-4xl font-bold">Task Summary</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mt-10">
         {employeeData?.taskCounts &&
@@ -40,13 +39,12 @@ const EmployeeDashboard = () => {
           ))}
       </div>
 
-      {/* Task Info */}
       <h1 className="text-4xl font-bold mt-16">Task Info</h1>
       <div className="flex flex-wrap gap-5 justify-start w-full py-4">
         {Array.isArray(employeeData?.tasks) &&
-          employeeData.tasks.map((task, index) => (
+          employeeData.tasks.map((task) => (
             <TaskCard
-              key={task.id || index}
+              key={task.id}
               task={task}
               getTaskBgColor={getTaskBgColor}
             />

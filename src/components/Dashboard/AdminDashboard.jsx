@@ -1,12 +1,49 @@
+import { AgGridReact } from "ag-grid-react";
 import { useLocation } from "react-router-dom";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
+import { ModuleRegistry, AllCommunityModule } from "ag-grid-community";
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 const AdminDashboard = () => {
   const { state } = useLocation();
-  console.log(state)
+ 
+  const makeRowData = Array.isArray(state?.employees)
+    ? state.employees.map((emp) => ({
+        firstName: emp.firstName,
+        newTask: emp.taskCounts.newTask,
+        active: emp.taskCounts.active,
+        completed: emp.taskCounts.completed,
+        failed: emp.taskCounts.failed,
+      }))
+    : [];
+
+  const makeColumnData =
+    makeRowData.length > 0
+      ? Object.keys(makeRowData[0]).map((row) => ({
+          field: row,
+          headerName: row === "firstName" ? "EMPLOYEE NAME" : row.toUpperCase(),
+        }))
+      : [
+          { field: "firstName", headerName: "EMPLOYEE NAME" },
+          { field: "newTask", headerName: "NEW TASK" },
+          { field: "active", headerName: "ACTIVE" },
+          { field: "completed", headerName: "COMPLETED" },
+          { field: "failed", headerName: "FAILED" },
+        ];
+
+  const defaultColDef = {
+    flex: 1,
+    sortable: true,
+    filter: true,
+    resizable: true,
+  };
+
   return (
     <>
       <section className="max-w-7xl mx-auto">
-        <div className="h-screen w-full p-7">
+        <div className="h-screen w-full px-7 py-4">
           <div className="p-5 bg-[#1c1c1c] mt-5 rounded">
             <form className="flex flex-col md:flex-row flex-wrap w-full gap-6">
               <div className="w-full md:w-1/2">
@@ -26,7 +63,7 @@ const AdminDashboard = () => {
                   />
                 </div>
                 <div>
-                  <h3 className="text-sm text-gray-300 mb-0.5">Asign to</h3>
+                  <h3 className="text-sm text-gray-300 mb-0.5">Assign to</h3>
                   <input
                     className="text-sm py-1 px-2 w-full md:w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4"
                     type="text"
@@ -57,22 +94,21 @@ const AdminDashboard = () => {
             </form>
           </div>
 
-          <div className="bg-[#1c1c1c] p-5 rounded mt-5 overflow-x-auto">
-            <div className="min-w-[600px]">
-              <div className="bg-red-400 mb-2 py-2 px-4 flex justify-between rounded">
-                <h2 className="text-lg font-medium w-1/5">Employee Name</h2>
-                <h3 className="text-lg font-medium w-1/5">New Task</h3>
-                <h5 className="text-lg font-medium w-1/5">Active Task</h5>
-                <h5 className="text-lg font-medium w-1/5">Completed</h5>
-                <h5 className="text-lg font-medium w-1/5">Failed</h5>
-              </div>
-              <div className="border-2 border-emerald-500 mb-2 py-2 px-4 flex justify-between rounded">
-                <h2 className="text-lg font-medium w-1/5">Ganesh</h2>
-                <h3 className="text-lg font-medium w-1/5 text-blue-400">10</h3>
-                <h5 className="text-lg font-medium w-1/5 text-yellow-400">2</h5>
-                <h5 className="text-lg font-medium w-1/5 text-white">5</h5>
-                <h5 className="text-lg font-medium w-1/5 text-red-600">3</h5>
-              </div>
+          <div className="mt-5">
+            <h2 className="text-white text-lg mb-3">Employee Task Summary</h2>
+            <div
+              className="ag-theme-alpine"
+              style={{ width: "100%", maxHeight: "400px", overflow: "auto" }}
+            >
+              <AgGridReact
+                rowData={makeRowData}
+                columnDefs={makeColumnData}
+                defaultColDef={defaultColDef}
+                theme="legacy"
+                domLayout="autoHeight"
+                suppressHorizontalScroll={false}
+                suppressVerticalScroll={false}
+              />
             </div>
           </div>
         </div>

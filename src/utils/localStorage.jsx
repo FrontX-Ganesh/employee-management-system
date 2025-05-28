@@ -12,6 +12,7 @@ const employees = [
     },
     tasks: [
       {
+        taskId: 101,
         active: true,
         newTask: true,
         completed: false,
@@ -22,6 +23,7 @@ const employees = [
         category: "Design",
       },
       {
+        taskId: 102,
         active: false,
         newTask: false,
         completed: true,
@@ -32,6 +34,7 @@ const employees = [
         category: "Meeting",
       },
       {
+        taskId: 103,
         active: true,
         newTask: false,
         completed: false,
@@ -56,6 +59,7 @@ const employees = [
     },
     tasks: [
       {
+        taskId: 104,
         active: true,
         newTask: false,
         completed: false,
@@ -66,6 +70,7 @@ const employees = [
         category: "Database",
       },
       {
+        taskId: 105,
         active: false,
         newTask: false,
         completed: true,
@@ -90,6 +95,7 @@ const employees = [
     },
     tasks: [
       {
+        taskId: 106,
         active: true,
         newTask: true,
         completed: false,
@@ -100,6 +106,7 @@ const employees = [
         category: "Presentation",
       },
       {
+        taskId: 107,
         active: true,
         newTask: false,
         completed: false,
@@ -110,6 +117,7 @@ const employees = [
         category: "Development",
       },
       {
+        taskId: 108,
         active: false,
         newTask: false,
         completed: true,
@@ -134,6 +142,7 @@ const employees = [
     },
     tasks: [
       {
+        taskId: 109,
         active: true,
         newTask: true,
         completed: false,
@@ -144,6 +153,7 @@ const employees = [
         category: "Documentation",
       },
       {
+        taskId: 110,
         active: true,
         newTask: false,
         completed: false,
@@ -168,6 +178,7 @@ const employees = [
     },
     tasks: [
       {
+        taskId: 111,
         active: true,
         newTask: true,
         completed: false,
@@ -178,6 +189,7 @@ const employees = [
         category: "Design",
       },
       {
+        taskId: 112,
         active: false,
         newTask: false,
         completed: true,
@@ -188,6 +200,7 @@ const employees = [
         category: "DevOps",
       },
       {
+        taskId: 113,
         active: true,
         newTask: false,
         completed: false,

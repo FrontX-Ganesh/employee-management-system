@@ -38,7 +38,9 @@ const Login = () => {
       localStorage.setItem("role", "admin");
       localStorage.setItem("userData", JSON.stringify(adminData));
       navigate("/admin", {
-        state: { adminData },
+        state: {
+          employees
+        }
       });
     } else if (employeeData) {
       localStorage.setItem("role", "employee");
