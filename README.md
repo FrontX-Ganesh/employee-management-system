@@ -10,7 +10,7 @@ Seamlessly manage and visualize task data with **AG Grid** and intuitive UI comp
 
 ### 👨‍💼 Admin Dashboard
 - ✅ View a summary of tasks assigned to all employees.
-- 📝 Assign new tasks via a responsive task creation form.
+- 📝 Assign new tasks through a responsive form that updates local data and logs task assignments to the console for verification.
 - 📊 Interactive tabular overview with AG Grid for better clarity.
 
 ### 👨‍🔧 Employee Dashboard
