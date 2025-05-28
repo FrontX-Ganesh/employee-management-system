@@ -39,8 +39,8 @@ const Login = () => {
       localStorage.setItem("userData", JSON.stringify(adminData));
       navigate("/admin", {
         state: {
-          employees
-        }
+          employees,
+        },
       });
     } else if (employeeData) {
       localStorage.setItem("role", "employee");
@@ -62,15 +62,15 @@ const Login = () => {
   return (
     <>
       <ToastContainer />
-      <div className="flex h-screen w-screen items-center justify-center px-4">
-        <div className="border-2 rounded-xl border-emerald-600 p-6 sm:p-10 md:p-16 lg:p-20 w-full max-w-sm sm:max-w-md">
+      <div className="flex h-screen w-screen items-center justify-center bg-gray-50 px-4">
+        <div className="bg-white rounded-2xl shadow-md border border-indigo-200 p-6 sm:p-10 md:p-16 lg:p-20 w-full max-w-sm sm:max-w-md">
           <form
-            className="flex flex-col items-center justify-center w-full"
+            className="flex flex-col items-center justify-center w-full gap-4"
             onSubmit={handleSubmit}
           >
             <input
               required
-              className="w-full outline-none bg-transparent border-2 border-emerald-600 font-medium text-base sm:text-lg py-2 px-4 sm:px-6 rounded-full placeholder:text-gray-400"
+              className="w-full outline-none border border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 font-medium text-base sm:text-lg py-2 px-4 sm:px-6 rounded-full placeholder:text-gray-500 transition-all"
               type="email"
               placeholder="Enter your email"
               name="email"
@@ -78,13 +78,13 @@ const Login = () => {
             />
             <input
               required
-              className="w-full outline-none bg-transparent border-2 border-emerald-600 font-medium text-base sm:text-lg py-2 px-4 sm:px-6 rounded-full mt-3 placeholder:text-gray-400"
+              className="w-full outline-none border border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 font-medium text-base sm:text-lg py-2 px-4 sm:px-6 rounded-full placeholder:text-gray-500 transition-all"
               type="password"
               placeholder="Enter password"
               name="password"
               onChange={handleInputChange}
             />
-            <button className="mt-6 text-white border-none outline-none hover:bg-emerald-700 font-semibold bg-emerald-600 text-base sm:text-lg py-2 px-6 sm:px-8 w-full rounded-full">
+            <button className="mt-4 text-white bg-indigo-600 hover:bg-indigo-700 transition-all font-semibold text-base sm:text-lg py-2 px-6 sm:px-8 w-full rounded-full">
               Log in
             </button>
           </form>
