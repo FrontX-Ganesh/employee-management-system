@@ -3,12 +3,21 @@ import { useLocation } from "react-router-dom";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { ModuleRegistry, AllCommunityModule } from "ag-grid-community";
+import { useRef } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import { employees } from "../../utils/localStorage";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 const AdminDashboard = () => {
   const { state } = useLocation();
- 
+  const titleRef = useRef();
+  const dateRef = useRef();
+  const assignRef = useRef();
+  const categoryRef = useRef();
+  const descriptionRef = useRef();
+  const taskTypeRef = useRef();
+
   const makeRowData = Array.isArray(state?.employees)
     ? state.employees.map((emp) => ({
         firstName: emp.firstName,
@@ -40,54 +49,153 @@ const AdminDashboard = () => {
     resizable: true,
   };
 
+  const employeeNames =
+    Array.isArray(state?.employees) &&
+    state?.employees.map((emp) => ({
+      id: emp.id,
+      name: emp.firstName,
+    }));
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    if (
+      titleRef.current.value === "" ||
+      dateRef.current.value === "" ||
+      assignRef.current.value === "" ||
+      categoryRef.current.value === "" ||
+      descriptionRef.current.value === "" ||
+      taskTypeRef.current.value === ""
+    ) {
+      toast.error("Please fill the form.");
+      return false;
+    }
+
+    const taskData = {
+      taskId: Date.now(),
+      active: taskTypeRef.current.value === "active",
+      newTask: taskTypeRef.current.value === "newTask",
+      completed: taskTypeRef.current.value === "completed",
+      failed: taskTypeRef.current.value === "failed",
+      taskTitle: titleRef.current.value,
+      taskDescription: descriptionRef.current.value,
+      taskDate: dateRef.current.value,
+      category: categoryRef.current.value,
+    };
+
+    const newTaskData = employees.map((info) => {
+      if (info.id === parseInt(assignRef.current.value)) {
+        console.log(info.tasks);
+        info.tasks.push(taskData);
+      }
+      return info;
+    });
+
+    console.log(newTaskData);
+  };
+
   return (
     <>
+      <ToastContainer />
       <section className="max-w-7xl mx-auto">
         <div className="h-screen w-full px-7 py-4">
-          <div className="p-5 bg-[#1c1c1c] mt-5 rounded">
-            <form className="flex flex-col md:flex-row flex-wrap w-full gap-6">
-              <div className="w-full md:w-1/2">
+          <div className="p-6 mt-6 bg-white rounded-xl shadow-md border border-gray-200">
+            <form
+              onSubmit={handleFormSubmit}
+              className="flex flex-col md:flex-row flex-wrap w-full gap-8"
+            >
+              <div className="w-full md:w-1/2 flex flex-col gap-4">
                 <div>
-                  <h3 className="text-sm text-gray-300 mb-0.5">Task Title</h3>
+                  <label className="text-sm text-gray-600 block mb-1">
+                    Task Title
+                  </label>
                   <input
-                    className="text-sm py-1 px-2 w-full md:w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4"
+                    ref={titleRef}
                     type="text"
-                    placeholder="Make a UI design"
+                    placeholder="Task Title"
+                    className="text-sm py-2 px-3 w-full rounded-md bg-white border border-gray-300 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-emerald-500 transition"
                   />
                 </div>
+
                 <div>
-                  <h3 className="text-sm text-gray-300 mb-0.5">Date</h3>
+                  <label className="text-sm text-gray-600 block mb-1">
+                    Date
+                  </label>
                   <input
-                    className="text-sm py-1 px-2 w-full md:w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4"
+                    ref={dateRef}
                     type="date"
+                    min={new Date().toISOString().split("T")[0]}
+                    className="text-sm py-2 px-3 w-full rounded-md bg-white border border-gray-300 text-gray-800 focus:outline-none focus:border-emerald-500 transition"
                   />
                 </div>
+
                 <div>
-                  <h3 className="text-sm text-gray-300 mb-0.5">Assign to</h3>
-                  <input
-                    className="text-sm py-1 px-2 w-full md:w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4"
-                    type="text"
-                    placeholder="employee name"
-                  />
+                  <label className="text-sm text-gray-600 block mb-1">
+                    Assign to
+                  </label>
+                  <select
+                    ref={assignRef}
+                    className="text-sm py-2 px-3 w-full rounded-md bg-white border border-gray-300 text-gray-800 focus:outline-none focus:border-emerald-500 transition"
+                    defaultValue=""
+                  >
+                    <option value="" disabled>
+                      Select employee
+                    </option>
+                    {employeeNames &&
+                      employeeNames.map((detail) => (
+                        <option value={detail.id}>{detail.name}</option>
+                      ))}
+                  </select>
                 </div>
+
                 <div>
-                  <h3 className="text-sm text-gray-300 mb-0.5">Category</h3>
+                  <label className="text-sm text-gray-600 block mb-1">
+                    Category
+                  </label>
                   <input
-                    className="text-sm py-1 px-2 w-full md:w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4"
+                    ref={categoryRef}
                     type="text"
-                    placeholder="design, dev, etc"
+                    placeholder="Design, dev, etc."
+                    className="text-sm py-2 px-3 w-full rounded-md bg-white border border-gray-300 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-emerald-500 transition"
                   />
                 </div>
               </div>
 
-              <div className="w-full md:w-2/5 flex flex-col">
-                <h3 className="text-sm text-gray-300 mb-0.5">Description</h3>
-                <textarea
-                  className="w-full h-44 text-sm py-2 px-4 rounded outline-none bg-transparent border-[1px] border-gray-400"
-                  name=""
-                  id=""
-                ></textarea>
-                <button className="bg-emerald-500 py-3 hover:bg-emerald-600 px-5 rounded text-sm mt-4 w-full">
+              <div className="w-full md:w-2/5 flex flex-col justify-between gap-4">
+                <div>
+                  <label className="text-sm text-gray-600 block mb-1">
+                    Description
+                  </label>
+                  <textarea
+                    ref={descriptionRef}
+                    className="w-full h-32 text-sm py-2 px-3 rounded-md bg-white border border-gray-300 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-emerald-500 transition resize-none"
+                    placeholder="Describe the task..."
+                  ></textarea>
+                </div>
+
+                <div>
+                  <label className="text-sm text-gray-600 block mb-1">
+                    Task Type
+                  </label>
+                  <select
+                    ref={taskTypeRef}
+                    className="text-sm py-2 px-3 w-full rounded-md bg-white border border-gray-300 text-gray-800 focus:outline-none focus:border-emerald-500 transition"
+                    defaultValue=""
+                  >
+                    <option value="" disabled>
+                      Select task type
+                    </option>
+                    <option value="active">Active</option>
+                    <option value="completed">Completed</option>
+                    <option value="failed">Failed</option>
+                    <option value="newTask">New Task</option>
+                  </select>
+                </div>
+
+                <button
+                  type="submit"
+                  className="bg-emerald-500 text-white py-3 px-5 rounded-md text-sm font-medium hover:bg-emerald-600 transition shadow-md"
+                >
                   Create Task
                 </button>
               </div>
@@ -95,7 +203,7 @@ const AdminDashboard = () => {
           </div>
 
           <div className="mt-5">
-            <h2 className="text-white text-lg mb-3">Employee Task Summary</h2>
+            <h2 className="font-bold text-lg mb-3">Employee Task Summary</h2>
             <div
               className="ag-theme-alpine"
               style={{ width: "100%", maxHeight: "400px", overflow: "auto" }}
