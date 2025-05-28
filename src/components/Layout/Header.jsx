@@ -17,7 +17,7 @@ const Header = () => {
           👋 Hello, <span className="text-yellow-300">{firstName}</span>
         </h1>
         <button
-          className="bg-rose-500 hover:bg-rose-600 transition-all px-5 py-2 rounded-md font-medium shadow-sm"
+          className="bg-rose-500 hover:bg-rose-600 transition-all px-5 py-2 rounded-md font-medium shadow-sm cursor-pointer"
           onClick={handleLogoutUser}
         >
           Log Out

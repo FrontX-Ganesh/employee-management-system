@@ -4,7 +4,10 @@ import { AuthContext } from "../../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const formData = useRef({});
+  const formData = useRef({
+    email: "admin@example.com",
+    password: "123",
+  });
   const userData = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -15,7 +18,6 @@ const Login = () => {
 
   const handleLogin = (email, password) => {
     if (!userData) {
-      console.warn("userData is not loaded yet");
       toast.error("User data is not loaded yet.");
       return;
     }
@@ -31,23 +33,14 @@ const Login = () => {
       (detail) => detail?.email === email && detail?.password === password
     );
 
-    console.log("employeeData:", employeeData);
-    console.log("adminData:", adminData);
-
     if (adminData) {
       localStorage.setItem("role", "admin");
       localStorage.setItem("userData", JSON.stringify(adminData));
-      navigate("/admin", {
-        state: {
-          employees,
-        },
-      });
+      navigate("/admin", { state: { employees } });
     } else if (employeeData) {
       localStorage.setItem("role", "employee");
       localStorage.setItem("userData", JSON.stringify(employeeData));
-      navigate("/employee", {
-        state: { employeeData },
-      });
+      navigate("/employee", { state: { employeeData } });
     } else {
       toast.error("Invalid Credentials");
     }
@@ -75,6 +68,7 @@ const Login = () => {
               placeholder="Enter your email"
               name="email"
               onChange={handleInputChange}
+              defaultValue="admin@example.com"
             />
             <input
               required
@@ -83,6 +77,7 @@ const Login = () => {
               placeholder="Enter password"
               name="password"
               onChange={handleInputChange}
+              defaultValue="123"
             />
             <button className="mt-4 text-white bg-indigo-600 hover:bg-indigo-700 transition-all font-semibold text-base sm:text-lg py-2 px-6 sm:px-8 w-full rounded-full">
               Log in
