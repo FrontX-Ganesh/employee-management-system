@@ -80,6 +80,15 @@ const AdminDashboard = () => {
       return info;
     });
 
+    toast.success("Data Added sucessfully. Please check the console.");
+
+    titleRef.current.value = "";
+    dateRef.current.value = "";
+    assignRef.current.value = "";
+    categoryRef.current.value = "";
+    descriptionRef.current.value = "";
+    taskTypeRef.current.value = "";
+
     console.log(newTaskData);
   };
 

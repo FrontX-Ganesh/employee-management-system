@@ -11,8 +11,8 @@ const Header = () => {
   };
 
   return (
-    <header className="max-w-7xl mx-auto px-4 md:px-7 py-6 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl text-white shadow-md mt-2">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <header className="max-w-7xl mx-auto px-4">
+      <div className="md:px-7 py-6 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl text-white shadow-md mt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <h1 className="text-2xl sm:text-3xl font-semibold">
           👋 Hello, <span className="text-yellow-300">{firstName}</span>
         </h1>
