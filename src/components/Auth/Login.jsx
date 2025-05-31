@@ -79,7 +79,7 @@ const Login = () => {
               onChange={handleInputChange}
               defaultValue="123"
             />
-            <button className="mt-4 text-white bg-indigo-600 hover:bg-indigo-700 transition-all font-semibold text-base sm:text-lg py-2 px-6 sm:px-8 w-full rounded-full">
+            <button className="mt-4 text-white bg-indigo-600 hover:bg-indigo-700 transition-all font-semibold text-base sm:text-lg py-2 px-6 sm:px-8 w-full rounded-full cursor-pointer">
               Log in
             </button>
           </form>

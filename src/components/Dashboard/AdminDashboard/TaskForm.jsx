@@ -101,7 +101,7 @@ const TaskForm = ({
 
           <button
             type="submit"
-            className="bg-emerald-500 text-white py-3 px-5 rounded-md text-sm font-medium hover:bg-emerald-600 transition shadow-md hover:shadow-lg"
+            className="bg-emerald-500 text-white py-3 px-5 rounded-md text-sm font-medium hover:bg-emerald-600 transition shadow-md hover:shadow-lg cursor-pointer"
           >
             Create Task
           </button>
